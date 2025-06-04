@@ -33,6 +33,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "googleMapsApiKey": "AIzaSyC1NLydQ10qn1plTIeyaKYwwMg7oOZzkik",
+      "weatherApiKey": "ca0fefa8244e330f1e477274aecd91aa",
+      "firebaseApiKey": "AIzaSyC1NLydQ10qn1plTIeyaKYwwMg7oOZzkik"
     }
   }
 }

@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 import Constants from 'expo-constants';
 
 const firebaseConfig = {
-  apiKey: Constants.expoConfig?.extra?.firebaseApiKey || process.env.FIREBASE_API_KEY,
+  apiKey: Constants.expoConfig?.extra?.firebaseApiKey || process.env.FIREBASE_API_KEY || 'AIzaSyC1NLydQ10qn1plTIeyaKYwwMg7oOZzkik',
   authDomain: 'myexpoapp-1cca0.firebaseapp.com',
   projectId: 'myexpoapp-1cca0',
   storageBucket: 'myexpoapp-1cca0.appspot.com',

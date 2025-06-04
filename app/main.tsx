@@ -25,7 +25,7 @@ import polyline from '@mapbox/polyline';
 
 import Constants from 'expo-constants';
 
-const GOOGLE_MAPS_API_KEY = Constants.expoConfig?.extra?.googleMapsApiKey || process.env.GOOGLE_MAPS_API_KEY;
+const GOOGLE_MAPS_API_KEY = Constants.expoConfig?.extra?.googleMapsApiKey || process.env.GOOGLE_MAPS_API_KEY ;
 // OpenWeatherMap API - Replace with your actual API key
 const WEATHER_API_KEY = Constants.expoConfig?.extra?.weatherApiKey || process.env.WEATHER_API_KEY;
 
