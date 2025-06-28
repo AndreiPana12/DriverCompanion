@@ -37,7 +37,7 @@ export default {
       typedRoutes: true
     },
     extra: {
-      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyC1NLydQ10qn1plTIeyaKYwwMg7oOZzkik",
+      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyAInOrptLN-NBY363L-tomETDhwQlMtu3s",
       weatherApiKey: process.env.WEATHER_API_KEY || "ca0fefa8244e330f1e477274aecd91aa",
       firebaseApiKey: process.env.FIREBASE_API_KEY || "AIzaSyC1NLydQ10qn1plTIeyaKYwwMg7oOZzkik"
     }

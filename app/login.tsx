@@ -14,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { auth, db } from '../firebase';
@@ -76,32 +77,39 @@ const Login = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <LinearGradient
-          colors={['#0A1128', '#001F54']}
-          style={StyleSheet.absoluteFillObject}
-        />
-        
-        <View style={styles.glowCircle} />
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <LinearGradient
+            colors={['#0A1128', '#001F54']}
+            style={StyleSheet.absoluteFillObject}
+          />
+          
+          <View style={styles.glowCircle} />
 
-        <View style={styles.headerContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.welcomeText}>Welcome Back</Text>
-            <LinearGradient
-              colors={['#4361EE', '#3A0CA3']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradientUnderline}
-            />
-          </View>
-          <Text style={styles.subtitle}>Sign in to continue your journey</Text>
-        </View>
+          <ScrollView 
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.headerContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.welcomeText}>Welcome Back</Text>
+                <LinearGradient
+                  colors={['#4361EE', '#3A0CA3']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.gradientUnderline}
+                />
+              </View>
+              <Text style={styles.subtitle}>Sign in to continue your journey</Text>
+            </View>
 
-        <View style={styles.formContainer}>
+            <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
             <Text style={styles.labelText}>Username or Email</Text>
             <View style={styles.inputWrapper}>
@@ -144,9 +152,11 @@ const Login = () => {
               <Text style={styles.linkText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
+            </View>
+          </ScrollView>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -164,6 +174,11 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     backgroundColor: 'rgba(67, 97, 238, 0.15)',
     transform: [{ scale: 1.5 }],
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 40,
   },
   headerContainer: {
     paddingTop: 60,

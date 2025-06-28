@@ -34,7 +34,7 @@ const AnimatedButton = ({
 }: AnimatedButtonProps) => {
   const strokeDashoffset = useSharedValue(0);
 
-  const pathLength = 688; // Approximate length of full border
+  const pathLength = 688; 
   const dashLength = 100;
   const gapLength = pathLength - dashLength;
 

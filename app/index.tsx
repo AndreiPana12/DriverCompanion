@@ -1,12 +1,57 @@
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Dimensions, Animated } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions, Animated, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
 export default function Welcome() {
   const router = useRouter();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const glowAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const createPulseAnimation = () => {
+      return Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]);
+    };
+
+    const createGlowAnimation = () => {
+      return Animated.sequence([
+        Animated.timing(glowAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(glowAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ]);
+    };
+
+    const pulseLoop = Animated.loop(createPulseAnimation());
+    const glowLoop = Animated.loop(createGlowAnimation());
+
+    pulseLoop.start();
+    glowLoop.start();
+
+    return () => {
+      pulseLoop.stop();
+      glowLoop.stop();
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -19,7 +64,25 @@ export default function Welcome() {
       
       <View style={styles.topSection}>
         <View style={styles.logoContainer}>
-          <Text style={styles.emoji}>🚗</Text>
+          <View style={styles.futuristicImageContainer}>
+            <Animated.View 
+              style={[
+                styles.pulseRing, 
+                { transform: [{ scale: pulseAnim }] }
+              ]}
+            />
+            <Animated.View 
+              style={[
+                styles.glowEffect,
+                { opacity: glowAnim }
+              ]}
+            />
+            <Image 
+              source={require('../assets/images/car6.png')}
+              style={styles.futuristicImage}
+              resizeMode="contain"
+            />
+          </View>
           <LinearGradient
             colors={['#4361EE', '#3A0CA3']}
             start={{ x: 0, y: 0 }}
@@ -33,9 +96,9 @@ export default function Welcome() {
 
       <View style={styles.middleSection}>
         {[
-          { emoji: '🎯', text: 'Smart Navigation', subtext: 'Real-time routing' },
-          { emoji: '⚡', text: 'Speed Monitor', subtext: 'Safety first' },
-          { emoji: '🛡️', text: 'Advanced Safety', subtext: 'Proactive alerts' }
+          { icon: require('../assets/images/smartnavi.png'), text: 'Smart Navigation', subtext: 'Real-time routing' },
+          { icon: require('../assets/images/speed.png'), text: 'Speed Monitor', subtext: 'Safety first' },
+          { icon: require('../assets/images/safety.png'), text: 'Advanced Safety', subtext: 'Proactive alerts' }
         ].map((feature, index) => (
           <View key={index} style={styles.featureBox}>
             <LinearGradient
@@ -44,9 +107,11 @@ export default function Welcome() {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
             />
-            <Text style={styles.featureEmoji}>{feature.emoji}</Text>
-            <Text style={styles.featureText}>{feature.text}</Text>
-            <Text style={styles.featureSubtext}>{feature.subtext}</Text>
+            <Image source={feature.icon} style={styles.featureIcon} resizeMode="contain" />
+            <View style={styles.featureTextContainer}>
+              <Text style={styles.featureText}>{feature.text}</Text>
+              <Text style={styles.featureSubtext}>{feature.subtext}</Text>
+            </View>
           </View>
         ))}
       </View>
@@ -102,6 +167,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  futuristicImageContainer: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    width: 120,
+    height: 120,
+  },
+  futuristicImage: {
+    width: 70,
+    height: 70,
+    zIndex: 3,
+  },
+  glowEffect: {
+    position: 'absolute',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(67, 97, 238, 0.2)',
+    borderWidth: 2,
+    borderColor: '#4361EE',
+    shadowColor: '#4361EE',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    elevation: 15,
+    zIndex: 1,
+  },
+  pulseRing: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'rgba(67, 97, 238, 0.4)',
+    shadowColor: '#4361EE',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 25,
+    zIndex: 0,
+  },
   emoji: {
     fontSize: 60,
     marginBottom: 10,
@@ -134,7 +241,7 @@ const styles = StyleSheet.create({
   },
   featureBox: {
     borderRadius: 15,
-    padding: 20,
+    padding: 15,
     borderWidth: 1,
     borderColor: 'rgba(67, 97, 238, 0.3)',
     overflow: 'hidden',
@@ -146,6 +253,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginRight: 15,
   },
+  featureIcon: {
+    width: 36,
+    height: 36,
+    marginRight: 15,
+    backgroundColor: 'transparent',
+  },
+  featureTextContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   featureText: {
     color: '#fff',
     fontSize: 16,
@@ -155,8 +273,6 @@ const styles = StyleSheet.create({
   featureSubtext: {
     color: 'rgba(255, 255, 255, 0.6)',
     fontSize: 12,
-    position: 'absolute',
-    right: 20,
   },
   buttonContainer: {
     width: '100%',

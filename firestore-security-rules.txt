@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read and write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users can read and write their own driving profile
+    match /user_driving_profiles/{profileId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Allow all authenticated users to read driving profiles for leaderboard
+    match /user_driving_profiles/{profileId} {
+      allow read: if request.auth != null;
+    }
+    
+    // Daily trip summaries - users can read/write their own, read others for leaderboard
+    match /daily_trip_summaries/{summaryId} {
+      // Allow users to read and write their own daily summaries
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      
+      // Allow all authenticated users to read daily summaries for leaderboard
+      allow read: if request.auth != null;
+    }
+    
+    // Custom markers - users can read all public markers and manage their own
+    match /custom_markers/{markerId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Trip summaries - users can manage their own trips
+    match /trip_summaries/{tripId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}

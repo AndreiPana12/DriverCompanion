@@ -65,111 +65,115 @@ const SignUp = () => {
     }
   };
 
+  
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <LinearGradient
-          colors={['#0A1128', '#001F54']}
-          style={StyleSheet.absoluteFillObject}
-        />
-        
-        <View style={styles.glowCircle} />
-        
-        <ScrollView 
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.headerContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>Create Account</Text>
-              <LinearGradient
-                colors={['#4361EE', '#3A0CA3']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.gradientUnderline}
-              />
-            </View>
-            <Text style={styles.subtitle}>Join DriverCompanion today</Text>
-          </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.labelText}>Username</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  placeholder="Choose a username"
-                  placeholderTextColor="rgba(255,255,255,0.5)"
-                  value={username}
-                  onChangeText={setUsername}
-                  style={styles.input}
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.labelText}>Email</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  placeholder="Enter your email"
-                  placeholderTextColor="rgba(255,255,255,0.5)"
-                  value={email}
-                  onChangeText={setEmail}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                />
-              </View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.labelText}>Password</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  placeholder="Create a password"
-                  placeholderTextColor="rgba(255,255,255,0.5)"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry
-                  style={styles.input}
-                />
-              </View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.labelText}>Confirm Password</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  placeholder="Confirm your password"
-                  placeholderTextColor="rgba(255,255,255,0.5)"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry
-                  style={styles.input}
-                />
-              </View>
-            </View>
-
-          <AnimatedButton
-            onPress={handleSignUp}
-            text={isLoading ? 'Creating Account...' : 'Create Account'}
-            disabled={isLoading}
-            style={styles.button}
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <LinearGradient
+            colors={['#0A1128', '#001F54']}
+            style={StyleSheet.absoluteFillObject}
           />
+          
+          <View style={styles.glowCircle} />
+          
+          <ScrollView 
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.headerContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>Create Account</Text>
+                <LinearGradient
+                  colors={['#4361EE', '#3A0CA3']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.gradientUnderline}
+                />
+              </View>
+              <Text style={styles.subtitle}>Join DriverCompanion today</Text>
+            </View>
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Already have an account?</Text>
-            <TouchableOpacity onPress={() => router.push('/login')}>
-              <Text style={styles.linkText}>Sign In</Text>
-            </TouchableOpacity>
+            <View style={styles.formContainer}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.labelText}>Username</Text>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    placeholder="Choose a username"
+                    placeholderTextColor="rgba(255,255,255,0.5)"
+                    value={username}
+                    onChangeText={setUsername}
+                    style={styles.input}
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.labelText}>Email</Text>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    placeholder="Enter your email"
+                    placeholderTextColor="rgba(255,255,255,0.5)"
+                    value={email}
+                    onChangeText={setEmail}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.labelText}>Password</Text>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    placeholder="Create a password"
+                    placeholderTextColor="rgba(255,255,255,0.5)"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    style={styles.input}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.labelText}>Confirm Password</Text>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    placeholder="Confirm your password"
+                    placeholderTextColor="rgba(255,255,255,0.5)"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    secureTextEntry
+                    style={styles.input}
+                  />
+                </View>
+              </View>
+
+            <AnimatedButton
+              onPress={handleSignUp}
+              text={isLoading ? 'Creating Account...' : 'Create Account'}
+              disabled={isLoading}
+              style={styles.button}
+            />
+
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>Already have an account?</Text>
+              <TouchableOpacity onPress={() => router.push('/login')}>
+                <Text style={styles.linkText}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </TouchableWithoutFeedback>
+        </ScrollView>
+      </View>
+    </TouchableWithoutFeedback>
+  </KeyboardAvoidingView>
   );
 }
 
@@ -190,6 +194,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
+    justifyContent: 'center',
     paddingBottom: 40,
   },
   headerContainer: {

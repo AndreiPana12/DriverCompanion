@@ -2,10 +2,10 @@ import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { auth } from '../firebase';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { ThemeProvider } from '../contexts/ThemeContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,7 +16,6 @@ export default function RootLayout() {
 
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
-  const colorScheme = useColorScheme();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,13 +39,15 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="login" />
         <Stack.Screen name="signup" />
         <Stack.Screen name="main" />
         <Stack.Screen name="admin" />
+        <Stack.Screen name="settings" />
+        <Stack.Screen name="overallLeaderboard" />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
